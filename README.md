@@ -1,1 +1,1 @@
-# common functions include programs used in my 5 syllabus related programs
+# common functions include programs used in my 5 Subjects 
