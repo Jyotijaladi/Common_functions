@@ -2,30 +2,10 @@ from setuptools import setup,find_packages
 from typing import List
 REQUIREMENT_FILE_NAME="requirements.txt"
 Project_Name="PYPI PUBLISHING"
-Version="0.0.0.1"
-AUTHOR="Abhishek"
-DESCRIPTION="Experiment For publishing"
-PACKAGES=["PYPI PUBLISHING"]
-
-
-def get_requirement_list()->List[str]:
-    
-    """
-
-    Description : This function is going to return list of requirement
-    mentioned in requirements.txt file
-
-    Return : This function is going to return a file which contain name
-    of libraries mentioned in requirements.txt file     
-
-    """
-    with open(REQUIREMENT_FILE_NAME) as req_File:
-        req_List=req_File.readlines() 
-        req_File.close()
-   
-    req_List=req_List[:-1]
-   
-    return req_List
+Version="0.0.1"
+AUTHOR="Jyoti"
+DESCRIPTION="Mini Project on creating a library for all the program in 5 syllabus"
+PACKAGES=["Common_functions"]
 
 
 
@@ -39,10 +19,12 @@ setup(
     author=AUTHOR,
     description=DESCRIPTION,
     packages=find_packages(),
-    
-
-
+    long_description="This is simple project to create a library",
+    url="https://github.com/Jyotijaladi/Common_functions",
+    classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
 )
 
-if __name__=="__main__":
-    print(get_requirement_list())
