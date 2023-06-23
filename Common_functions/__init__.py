@@ -1026,7 +1026,3 @@ class Matrix:
             result.append(row)
         return Matrix(result)
 
-
-#103 
-def functionsaa():
-    print("hello world")
