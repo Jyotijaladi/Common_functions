@@ -9,7 +9,7 @@
 name: Upload Python Package
 
 on:
-  registry_package:
+  release:
     types: [published]
 
 permissions:
