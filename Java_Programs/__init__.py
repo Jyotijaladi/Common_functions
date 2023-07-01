@@ -4,7 +4,7 @@ import os
 root=os.path.dirname(__file__)
 os.chdir(root)
 def factorial_of_numbers(numbers):
-    result = subprocess.run(["java", "pack.FactorialOfNumbers",str(numbers)]  , capture_output=True, text=True)
+    result = subprocess.run(["java", "FactorialOfNumbers",str(numbers)]  , capture_output=True, text=True)
     print(result.stdout if result.stdout else result.stderr)
 
 

@@ -358,6 +358,3 @@ def social_network_analysis(graph_file):
     except Exception as e:
         print("An error occurred:", str(e))
 
-# Example usage
-graph_file = "social_network_graph.txt"  # Replace "social_network_graph.txt" with the actual file path
-social_network_analysis(graph_file)

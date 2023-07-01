@@ -595,11 +595,15 @@ import os
 
 
 def text_to_speech(text):
-    tts = gTTS(text=text, lang='en')
-    filename="sound.mp3"
-    tts.save(filename)
-    playsound(filename)
-    os.remove(filename)
+    try:
+        tts = gTTS(text=text, lang='en')
+        filename="sound.mp3"
+        tts.save(filename)
+        playsound(filename)
+        os.remove(filename)
+    except Exception as e:
+        #print("Exception ",str(e))
+        os.remove(filename)
 
 
 
