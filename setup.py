@@ -5,7 +5,7 @@ Project_Name="Common_functions"
 Version="0.0.1"
 AUTHOR="Jyoti"
 DESCRIPTION="Mini Project on creating a library for all the program in 5 syllabus"
-PACKAGES=["Common_functions"]
+PACKAGES=["Common_functions","C"]
 
 
 

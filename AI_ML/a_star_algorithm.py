@@ -3,7 +3,9 @@ import heapq
 def heuristic(node, goal):
     # Calculate the heuristic value between the current node and the goal node
     # Return the estimated cost from the current node to the goal node
-    pass
+    current_x, current_y = node
+    goal_x, goal_y = goal
+    return abs(current_x - goal_x) + abs(current_y - goal_y)
 
 def a_star(graph, start, goal):
     open_list = [(0, start)]  # Priority queue for A* traversal

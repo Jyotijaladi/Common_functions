@@ -1,43 +1,39 @@
-import heapq
+from queue import PriorityQueue
 
-def heuristic(node, goal):
-    # Calculate the heuristic value between the current node and the goal node
-    # Return the estimated cost from the current node to the goal node
-    pass
-
-def a_star(graph, start, goal, max_cost):
-    open_list = [(0, start)]  # Priority queue for A* traversal
-    came_from = {}  # Dictionary to store the parent node for each visited node
-    g_score = {node: float('inf') for node in graph}  # Dictionary to store the cost from start to each node
-    g_score[start] = 0
-    f_score = {node: float('inf') for node in graph}  # Dictionary to store the total estimated cost from start to each node
-    f_score[start] = heuristic(start, goal)
-    best_path = None
-
-    while open_list:
-        _, current = heapq.heappop(open_list)
-
+graph = {
+    'A': {'B': 1, 'C': 5},
+    'B': {'D': 3, 'E': 2},
+    'C': {'F': 4},
+    'D': {'G': 3},
+    'E': {},
+    'F': {},
+    'G': {}
+}
+heuristic = {
+    'A': 8,
+    'B': 6,
+    'C': 4,
+    'D': 4,
+    'E': 2,
+    'F': 2,
+    'G': 0
+}
+def a_star_optimistic(start, goal):
+    frontier = PriorityQueue()
+    frontier.put((0, start))
+    cost_so_far = {start: 0}
+    
+    while not frontier.empty():
+        _, current = frontier.get()
+        
         if current == goal:
-            # Reconstruct the path from the goal node to the start node
-            path = []
-            while current in came_from:
-                path.append(current)
-                current = came_from[current]
-            path.append(start)
-            path.reverse()
-
-            # Update the best path if it's the first solution or has lower cost than the current best
-            if best_path is None or g_score[goal] < g_score[best_path[-1]]:
-                best_path = path
-
-        if g_score[current] <= max_cost:
-            for neighbor, edge_cost in graph[current]:
-                tentative_g_score = g_score[current] + edge_cost
-                if tentative_g_score < g_score[neighbor]:
-                    came_from[neighbor] = current
-                    g_score[neighbor] = tentative_g_score
-                    f_score[neighbor] = g_score[neighbor] + heuristic(neighbor, goal)
-                    heapq.heappush(open_list, (f_score[neighbor], neighbor))
-
-    return best_path
-
+            break
+        
+        for neighbor, distance in graph[current].items():
+            new_cost = cost_so_far[current] + distance
+            if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
+                cost_so_far[neighbor] = new_cost
+                priority = new_cost + heuristic[neighbor]  # Use optimistic heuristic
+                frontier.put((priority, neighbor))
+    
+    return cost_so_far[goal]
