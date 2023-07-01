@@ -588,10 +588,19 @@ def tsp(graph, start):
 
 # 20. Text-to-Speech Conversion
 
-def convert_text_to_speech(text, filename):
-    tts = gTTS(text)
+from gtts import gTTS
+import playsound
+from playsound import playsound
+import os
+
+
+def text_to_speech(text):
+    tts = gTTS(text=text, lang='en')
+    filename="sound.mp3"
     tts.save(filename)
     playsound(filename)
+    os.remove(filename)
+
 
 
 # 21. Classification with Multiple Classifiers
@@ -619,43 +628,6 @@ def train_classifiers(csv_file):
 
 
 # Example Usage
-
-if __name__ == "__main__":
-    # Example for Hill Climbing
-    def evaluate(state):
-        return sum(state)
-
-    initial_state = [0, 0, 0]
-    final_state = hill_climbing(initial_state, evaluate)
-    print(f"Final State: {final_state}")
-
-    # Example for Neural Network
-    inputs = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-    targets = np.array([0, 1, 1, 0])
-    nn = NeuralNetwork(2, 2, 1)
-    nn.train(inputs, targets, learning_rate=0.1, epochs=1000)
-    for input_, target in zip(inputs, targets):
-        output = nn.forward_propagation(input_)
-        print(f"Input: {input_}, Target: {target}, Output: {output[0]}")
-
-    # Example for Traveling Salesperson Problem
-    graph = [
-        [0, 2, 9, 10],
-        [1, 0, 6, 4],
-        [15, 7, 0, 8],
-        [6, 3, 12, 0]
-    ]
-    start_city = 0
-    path, total_distance = tsp(graph, start_city)
-    print(f"Path: {path}, Total Distance: {total_distance}")
-
-    # Example for Text-to-Speech Conversion
-    text = "Hello, how are you?"
-    convert_text_to_speech(text, "output.mp3")
-
-    # Example for Classification with Multiple Classifiers
-    csv_file = "data.csv"
-    train_classifiers(csv_file)
 
 # Traveling Salesperson Problem
 # The Traveling Salesperson Problem has multiple approaches and algorithms to find the optimal solution.
