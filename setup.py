@@ -2,7 +2,7 @@ from setuptools import setup,find_packages
 from typing import List
 REQUIREMENT_FILE_NAME="requirements.txt"
 Project_Name="Common_functions"
-Version="0.0.1"
+Version="0.0.3"
 AUTHOR="Jyoti"
 DESCRIPTION="Mini Project on creating a library for all the program in 5 syllabus"
 PACKAGES=["Common_functions","C"]
@@ -20,8 +20,9 @@ setup(
     description=DESCRIPTION,
     packages=find_packages(),
     long_description="This is simple project to create a library",
-    requires=["pandas","numpy","ctypes"],
+    requires=["pandas","numpy","ctypes","sklearn"],
     url="https://github.com/Jyotijaladi/Common_functions",
+
     classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
