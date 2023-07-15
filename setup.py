@@ -20,6 +20,7 @@ setup(
     description=DESCRIPTION,
     packages=find_packages(),
     long_description="This is simple project to create a library",
+    requires=["pandas","numpy","ctypes"],
     url="https://github.com/Jyotijaladi/Common_functions",
     classifiers = [
     "Programming Language :: Python :: 3",

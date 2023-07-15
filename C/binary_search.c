@@ -1,4 +1,5 @@
 //#20 Function to implement binary search
+#include <stdio.h>
 int binarySearch(int arr[], int low, int high, int target) {
     if (low <= high) {
         int mid = low + (high - low) / 2;
@@ -9,4 +10,8 @@ int binarySearch(int arr[], int low, int high, int target) {
         return binarySearch(arr, mid + 1, high, target);
     }
     return -1;
+}
+int main() {
+    printf("Hello, World!\n");
+    return 0;
 }

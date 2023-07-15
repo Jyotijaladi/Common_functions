@@ -50,6 +50,7 @@ def data_exploration(dataset_path):
 
 
 def data_visualization(dataset_path):
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
