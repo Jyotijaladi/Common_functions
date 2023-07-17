@@ -43,7 +43,7 @@ class Console(tk.Frame):
             "AI_ML": AI_ML,
             "Java_Programs": Java_Programs,
             "Python_lib": Python_lib,
-            "Data_mining": Data_Mining,
+            "Data_Mining": Data_Mining,
             "C": C
         }
         self.module_var = tk.StringVar()

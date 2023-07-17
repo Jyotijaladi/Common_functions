@@ -13,7 +13,13 @@ from mlxtend.frequent_patterns import apriori, association_rules
 from sklearn.linear_model import LinearRegression
 from sklearn.cluster import KMeans, AgglomerativeClustering
 
-def data_exploration(dataset_path):
+def data_exploration():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
@@ -42,14 +48,16 @@ def data_exploration(dataset_path):
         print("Standard Deviation:")
         print(data.std())
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def data_visualization(dataset_path):
+def data_visualization():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
 
     try:
         # Load data
@@ -80,14 +88,16 @@ def data_visualization(dataset_path):
                         plt.ylabel(column2)
                         plt.show()
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
     except Exception as e:
         print("An error occurred:", str(e))
 
+def data_preprocessing():
+    dataset_path = input("Enter the dataset path: ")
 
-def data_preprocessing(dataset_path):
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
@@ -99,14 +109,17 @@ def data_preprocessing(dataset_path):
         print("Pre-processed Data:")
         print(data)
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def normalization(dataset_path):
+def normalization():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
@@ -119,14 +132,16 @@ def normalization(dataset_path):
         print("Normalized Data:")
         print(normalized_data)
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
     except Exception as e:
         print("An error occurred:", str(e))
 
+def standardization():
+    dataset_path = input("Enter the dataset path: ")
 
-def standardization(dataset_path):
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
@@ -139,14 +154,17 @@ def standardization(dataset_path):
         print("Standardized Data:")
         print(standardized_data)
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def data_reduction(dataset_path):
+def data_reduction():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
@@ -159,98 +177,125 @@ def data_reduction(dataset_path):
         print("Reduced Data:")
         print(reduced_data)
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def binary_logistic_regression(dataset_path):
+
+def binary_logistic_regression():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
+    target_column = input("Enter the name of the target column: ")
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
 
         # Perform binary logistic regression
-        X = data.drop('target', axis=1)
-        y = data['target']
+        X = data.drop(target_column, axis=1)
+        y = data[target_column]
         model = LogisticRegression()
         model.fit(X, y)
 
         # Perform predictions
         # ...
-
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
+        return model
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def decision_tree_classification(dataset_path):
+def decision_tree_classification():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
+    target_column = input("Enter the name of the target column: ")
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
 
         # Perform decision tree classification
-        X = data.drop('target', axis=1)
-        y = data['target']
+        X = data.drop(target_column, axis=1)
+        y = data[target_column]
         model = DecisionTreeClassifier()
         model.fit(X, y)
 
         # Perform predictions
         # ...
-
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
+        return model
     except Exception as e:
         print("An error occurred:", str(e))
 
+def naive_bayes_classification():
+    dataset_path = input("Enter the dataset path: ")
 
-def naive_bayes_classification(dataset_path):
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
+    target_column = input("Enter the name of the target column: ")
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
 
         # Perform Naive Bayes classification
-        X = data.drop('target', axis=1)
-        y = data['target']
+        X = data.drop(target_column, axis=1)
+        y = data[target_column]
         model = GaussianNB()
         model.fit(X, y)
 
         # Perform predictions
         # ...
-
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
+        return model
     except Exception as e:
         print("An error occurred:", str(e))
 
+def knn_classification():
+    dataset_path = input("Enter the dataset path: ")
 
-def knn_classification(dataset_path):
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
+    target_column = input("Enter the name of the target column: ")
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
 
         # Perform KNN classification
-        X = data.drop('target', axis=1)
-        y = data['target']
+        X = data.drop(target_column, axis=1)
+        y = data[target_column]
         model = KNeighborsClassifier()
         model.fit(X, y)
 
         # Perform predictions
         # ...
-
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
+        return model
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def frequent_item_set_mining(dataset_path, min_support, min_threshold):
+
+
+def frequent_item_set_mining():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
+    min_support = float(input("Enter the minimum support: "))
+    min_threshold = float(input("Enter the minimum threshold: "))
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
@@ -265,35 +310,50 @@ def frequent_item_set_mining(dataset_path, min_support, min_threshold):
         print("Association Rules:")
         print(rules)
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def linear_regression(dataset_path):
+
+
+def linear_regression():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
+    target_column = input("Enter the name of the target column: ")
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
 
         # Perform linear regression
-        X = data.drop('target', axis=1)
-        y = data['target']
+        X = data.drop(target_column, axis=1)
+        y = data[target_column]
         model = LinearRegression()
         model.fit(X, y)
 
         # Perform predictions
         # ...
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
-
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def kmeans_clustering(dataset_path, num_clusters):
+
+
+
+def kmeans_clustering():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
+    num_clusters = int(input("Enter the number of clusters: "))
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
@@ -306,14 +366,26 @@ def kmeans_clustering(dataset_path, num_clusters):
         print("Cluster Assignments:")
         print(clusters)
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
+        # Visualize clusters
+        plt.scatter(data['x'], data['y'], c=clusters)
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.title('K-means Clustering')
+        plt.show()
 
     except Exception as e:
         print("An error occurred:", str(e))
 
 
-def hierarchical_clustering(dataset_path, num_clusters):
+def hierarchical_clustering():
+    dataset_path = input("Enter the dataset path: ")
+
+    if not os.path.exists(dataset_path):
+        print("File not found. Please provide a valid dataset path.")
+        return
+
+    num_clusters = int(input("Enter the number of clusters: "))
+
     try:
         # Load data
         data = pd.read_csv(dataset_path)
@@ -326,14 +398,27 @@ def hierarchical_clustering(dataset_path, num_clusters):
         print("Cluster Assignments:")
         print(clusters)
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid dataset path.")
+        # Visualize clusters
+        plt.scatter(data['x'], data['y'], c=clusters)
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.title('Hierarchical Clustering')
+        plt.show()
 
     except Exception as e:
         print("An error occurred:", str(e))
-import networkx as nx
 
-def social_network_analysis(graph_file):
+
+import networkx as nx
+import os
+
+def social_network_analysis():
+    graph_file = input("Enter the file location of the graph: ")
+
+    if not os.path.exists(graph_file):
+        print("File not found. Please provide a valid graph file location.")
+        return
+
     try:
         # Load the social network graph
         graph = nx.read_edgelist(graph_file)
@@ -353,9 +438,7 @@ def social_network_analysis(graph_file):
         plt.title('Social Network Graph')
         plt.show()
 
-    except FileNotFoundError:
-        print("File not found. Please provide a valid graph file.")
-
     except Exception as e:
         print("An error occurred:", str(e))
+
 
