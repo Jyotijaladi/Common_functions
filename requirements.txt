@@ -1,3 +1,7 @@
 playsound
 gtts
 torch
+pandas
+numpy
+ctypes
+sklearn

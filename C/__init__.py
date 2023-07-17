@@ -136,8 +136,8 @@ def calculate_e():
 # Generate Primes
 def get_prime_numbers(n):
     primes = (ctypes.c_int * n)()
-    generate_primes(primes, n)
-    return list(primes)
+    generate_primes(n)
+    return 
 
 
 # Square Root
@@ -151,11 +151,10 @@ def get_ascii_code(char):
 
 
 # Partition Array
-def partition_array(arr, low, high):
+def partition_array_wrapper(arr, low, high):
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     return partition_array(c_arr, low, high)
-
 
 # Remove Duplicates
 def remove_duplicates(arr):
