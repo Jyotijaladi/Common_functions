@@ -99,65 +99,80 @@ binary_search.restype = ctypes.c_int
 
 
 # Fibonacci
-def get_fibonacci(n):
+def get_fibonacci():
+    n = int(input("Enter the value of n: "))
     return fibonacci(n)
 
 
 # Reverse Decimal
-def get_reverse_decimal(num):
+def get_reverse_decimal():
+    num = float(input("Enter a decimal number: "))
     return reverse_decimal(num)
 
 
 # Binary to Decimal
-def get_binary_to_decimal(binary):
+def get_binary_to_decimal():
+    binary = input("Enter a binary number: ")
     return binary_to_decimal(binary)
 
 
 # Sin(x)
-def calculate_sin(x):
+def calculate_sin():
+    x = float(input("Enter the value of x in radians: "))
     return sin_x(x)
 
 
 # Cos(x)
-def calculate_cos(x):
+def calculate_cos():
+    x = float(input("Enter the value of x in radians: "))
     return cos_x(x)
 
 
 # GCD
-def calculate_gcd(a, b):
+def calculate_gcd():
+    a = int(input("Enter the first number: "))
+    b = int(input("Enter the second number: "))
     return gcd(a, b)
 
 
 # Calculate e
-def calculate_e():
+def e_value():
     return calculate_e()
 
 
 # Generate Primes
-def get_prime_numbers(n):
+def get_prime_numbers():
+    n = int(input("Enter the value of n: "))
     primes = (ctypes.c_int * n)()
     generate_primes(n)
-    return 
+    return primes
 
 
 # Square Root
-def get_square_root(num):
+def get_square_root():
+    num = float(input("Enter a number: "))
     return square_root(num)
 
 
 # Char to ASCII
-def get_ascii_code(char):
+def get_ascii_code():
+    char = input("Enter a character: ")
     return char_to_ascii(char)
 
 
 # Partition Array
-def partition_array_wrapper(arr, low, high):
+def partition_array_wrapper():
+    arr = list(map(int, input("Enter the array elements: ").split()))
+    low = int(input("Enter the value of low: "))
+    high = int(input("Enter the value of high: "))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     return partition_array(c_arr, low, high)
 
+
 # Remove Duplicates
-def remove_duplicates(arr):
+def delete_duplicates():
+    arr = list(map(int, input("Enter the array elements: ").split()))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     new_size = remove_duplicates(c_arr, size)
@@ -165,21 +180,24 @@ def remove_duplicates(arr):
 
 
 # Count Duplicates
-def count_duplicates(arr):
+def count_duplicate_values():
+    arr = list(map(int, input("Enter the array elements: ").split()))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     return count_duplicates(c_arr, size)
 
 
 # Prime Factors
-def get_prime_factors(num):
+def get_prime_factors():
+    num = int(input("Enter a number: "))
     prime_factors_arr = (ctypes.c_int * num)()
     prime_factors(num, prime_factors_arr)
     return list(prime_factors_arr)
 
 
 # Reverse Array
-def reverse_array(arr):
+def reverse_array():
+    arr = list(map(int, input("Enter the array elements: ").split()))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     reverse_array(c_arr, size)
@@ -187,14 +205,17 @@ def reverse_array(arr):
 
 
 # Kth Smallest
-def get_kth_smallest(arr, k):
+def get_kth_smallest():
+    arr = list(map(int, input("Enter the array elements: ").split()))
+    k = int(input("Enter the value of k: "))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     return kth_smallest(c_arr, size, k)
 
 
 # Merge Sort
-def merge_sort_array(arr):
+def merge_sort_array():
+    arr = list(map(int, input("Enter the array elements: ").split()))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     merge_sort(c_arr, size)
@@ -202,7 +223,8 @@ def merge_sort_array(arr):
 
 
 # Bubble Sort
-def bubble_sort_array(arr):
+def bubble_sort_array():
+    arr = list(map(int, input("Enter the array elements: ").split()))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     bubble_sort(c_arr, size)
@@ -210,7 +232,8 @@ def bubble_sort_array(arr):
 
 
 # Selection Sort
-def selection_sort_array(arr):
+def selection_sort_array():
+    arr = list(map(int, input("Enter the array elements: ").split()))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     selection_sort(c_arr, size)
@@ -218,9 +241,9 @@ def selection_sort_array(arr):
 
 
 # Binary Search
-def binary_search_array(arr, target):
+def binary_search_array():
+    arr = list(map(int, input("Enter the sorted array elements: ").split()))
+    target = int(input("Enter the target value: "))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
     return binary_search(c_arr, size, target)
-
-

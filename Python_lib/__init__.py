@@ -631,19 +631,15 @@ def find_max():
 
 
 
-# Question 62
-def is_vowel(char):
-
-    def sub_is_vowel(char):
-        vowels = ['a', 'e', 'i', 'o', 'u']
-        return char.lower() in vowels
-
+def is_vowel():
+    vowels = ['a', 'e', 'i', 'o', 'u']
     string = input("Enter a string: ")
     count = 0
     for char in string:
-        if sub_is_vowel(char):
+        if char.lower() in vowels:
             count += 1
     print("Number of vowels in the string:", count)
+
 
 # Question 63
 def is_prime():
@@ -661,41 +657,37 @@ def is_prime():
             print(num)
 
 # Question 64
-def sum_of_cubes(lst):
-    def Sub_fun(lst):
-        return sum([num ** 3 for num in lst])
+def sum_of_cubes():
+    lst = list(map(int, input("Enter the numbers (separated by spaces): ").split()))
+    return sum([num ** 3 for num in lst])
 
-    numbers = [int(num) for num in input("Enter the numbers (separated by spaces): ").split()]
-    result = Sub_fun(numbers)
-    print("The sum of the cubes of the elements is:", result)
 
 
 # Question 65
-def zero_ending(scores):
+def zero_ending():
+    scores = list(map(int, input("Enter the scores (separated by spaces): ").split()))
     total = 0
     for score in scores:
         if str(score)[-1] == '0':
             total += score
     return total
-
-# Question 66
-def count_now(places):
+def count_now():
+    places = input("Enter the list of places (separated by spaces): ").split()
     count = 0
     for place in places:
         if len(place) > 5:
             count += 1
     return count
-
-# Question 67
-def display_list_elements(lst):
+def display_list_elements():
+    lst = input("Enter the list elements (separated by spaces): ").split()
     for element in lst:
         if isinstance(element, int) or isinstance(element, float):
             print(element * 3)
         else:
             print(element + '#')
-
-# Question 68
-def binary_search(values, target):
+def binary_search():
+    values = list(map(int, input("Enter the sorted list of values (separated by spaces): ").split()))
+    target = int(input("Enter the target value: "))
     start = 0
     end = len(values) - 1
     while start <= end:
@@ -708,23 +700,21 @@ def binary_search(values, target):
             end = mid - 1
     return -1
 
-# Question 69
-def half_and_half(lst):
+def half_and_half():
+    lst = input("Enter the list elements (separated by spaces): ").split()
     length = len(lst)
     half = length // 2
     lst[:half], lst[half:] = lst[half:], lst[:half]
     return lst
-
-# Question 70
-def remove_duplicates(dictionary):
+def remove_duplicates():
+    dictionary = eval(input("Enter the dictionary: "))  # Assuming the input format is valid dictionary syntax
     values = list(dictionary.values())
     if len(values) == len(set(values)):
         return dictionary
     else:
         return {}
-
-# Question 71
-def count_word_frequency(text):
+def count_word_frequency():
+    text = input("Enter the text: ")
     words = text.split()
     frequency = {}
     for word in words:
@@ -778,23 +768,27 @@ def phonebook_menu():
             print("Invalid choice. Please enter a valid choice.")
 
 # Question 73
-def reverse_tuple(t):
+def reverse_tuple():
+    t = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     return tuple(reversed(t))
 
 # Question 74
-def multiply_tuple(t):
+def multiply_tuple():
+    t = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     product = 1
     for num in t:
         product *= num
     return product
 
 # Question 75
-def average_tuple_values(t):
+def average_tuple_values():
+    t = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     total = sum(t)
     return total / len(t)
 
 # Question 76
-def elementwise_sum(tuples):
+def elementwise_sum():
+    tuples = eval(input("Enter a list of tuples: "))  # Assuming the input format is a valid list of tuples syntax
     result = []
     length = len(tuples[0])
     for i in range(length):
@@ -805,11 +799,13 @@ def elementwise_sum(tuples):
     return tuple(result)
 
 # Question 77
-def find_largest_smallest_tuple(t):
+def find_largest_smallest_tuple():
+    t = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     return max(t), min(t)
 
 # Question 78
-def sum_even_odd_numbers_tuple(t):
+def sum_even_odd_numbers_tuple():
+    t = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     even_sum = 0
     odd_sum = 0
     for num in t:
@@ -820,7 +816,8 @@ def sum_even_odd_numbers_tuple(t):
     return even_sum, odd_sum
 
 # Question 79
-def count_positive_negative_numbers_tuple(t):
+def count_positive_negative_numbers_tuple():
+    t = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     positive_count = 0
     negative_count = 0
     for num in t:
@@ -831,53 +828,70 @@ def count_positive_negative_numbers_tuple(t):
     return positive_count, negative_count
 
 # Question 80
-def tuple_to_string(t):
+def tuple_to_string():
+    t = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     return "".join(str(t))
 
 # 81. Program to Check whether the given item exists in a Tuple or not
-def check_item_in_tuple(item, tuple_data):
+def check_item_in_tuple():
+    item = eval(input("Enter an item: "))  # Assuming the input format is a valid item syntax
+    tuple_data = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     if item in tuple_data:
         print(f"{item} exists in the tuple.")
     else:
         print(f"{item} does not exist in the tuple.")
 
 # 82. Write a Python program to Convert Tuple items to the dictionary
-def convert_tuple_to_dict(tuple_data):
+def convert_tuple_to_dict():
+    tuple_data = eval(input("Enter a tuple: "))  # Assuming the input format is a valid tuple syntax
     dictionary = dict(enumerate(tuple_data))
     print(dictionary)
 
 # 83. Write Python Program to Add Key-Value Pair to a Dictionary
-def add_key_value_pair_to_dict(dictionary_data, key, value):
+def add_key_value_pair_to_dict():
+    dictionary_data = eval(input("Enter a dictionary: "))  # Assuming the input format is a valid dictionary syntax
+    key = input("Enter a key: ")
+    value = input("Enter a value: ")
     dictionary_data[key] = value
     print(f"Key-value pair ({key}: {value}) added to the dictionary.")
 
 # 84. Python Program to Create a Dictionary of keys and values are square of keys
-def create_square_dict(n):
+def create_square_dict():
+    n = int(input("Enter a number: "))
     square_dict = {key: key ** 2 for key in range(1, n + 1)}
     print(square_dict)
 
 # 85. Python Program to Create Dictionary of Numbers 1 to n in (x, x*x) form
-def create_num_dict(n):
+def create_num_dict():
+    n = int(input("Enter a number: "))
     num_dict = {key: key * key for key in range(1, n + 1)}
     print(num_dict)
 
 # 86. Python Program to Map two lists into a Dictionary
-def map_lists_to_dict(keys, values):
+def map_lists_to_dict():
+    keys = eval(input("Enter a list of keys: "))  # Assuming the input format is a valid list syntax
+    values = eval(input("Enter a list of values: "))  # Assuming the input format is a valid list syntax
     mapped_dict = dict(zip(keys, values))
     print(mapped_dict)
 
 # 87. Python Program to Concatenate Two Dictionaries
-def concatenate_dicts(dict1, dict2):
+def concatenate_dicts():
+    dict1 = eval(input("Enter the first dictionary: "))  # Assuming the input format is a valid dictionary syntax
+    dict2 = eval(input("Enter the second dictionary: "))  # Assuming the input format is a valid dictionary syntax
     concatenated_dict = {**dict1, **dict2}
     print(concatenated_dict)
 
 # 88. Python Program to Multiply All Items in a Dictionary
-def multiply_dict_items(dictionary_data, multiplier):
+def multiply_dict_items():
+    dictionary_data = eval(input("Enter a dictionary: "))  # Assuming the input format is a valid dictionary syntax
+    multiplier = int(input("Enter a multiplier: "))
     multiplied_dict = {key: value * multiplier for key, value in dictionary_data.items()}
     print(multiplied_dict)
 
 # 89. Python Program to Remove Given Key from a Dictionary
-def remove_key_from_dict(dictionary_data, key):
+def remove_key_from_dict():
+    dictionary_data = eval(input("Enter a dictionary: "))  # Assuming the input format is a valid dictionary syntax
+    key = input("Enter a key: ")
     if key in dictionary_data:
         del dictionary_data[key]
         print(f"The key '{key}' has been removed from the dictionary.")
@@ -885,7 +899,8 @@ def remove_key_from_dict(dictionary_data, key):
         print(f"The key '{key}' does not exist in the dictionary.")
 
 # 90. Python Program to find Sum of Items in a Dictionary
-def calculate_dict_sum(dictionary_data):
+def calculate_dict_sum():
+    dictionary_data = eval(input("Enter a dictionary: "))  # Assuming the input format is a valid dictionary syntax
     total_sum = sum(dictionary_data.values())
     print(f"The sum of items in the dictionary is: {total_sum}")
 
@@ -1000,13 +1015,25 @@ class MyClass:
         print(f"The value is: {self.value}")
 
 # 101. Python program to search student record using percentage
-def search_student_record(student_records, percentage):
+def search_student_record():
+    student_records = {}
+    num_students = int(input("Enter the number of students: "))
+
+    for _ in range(num_students):
+        student = input("Enter student name: ")
+        marks = float(input("Enter student marks: "))
+        student_records[student] = marks
+
+    percentage = float(input("Enter the percentage: "))
+
     for student, marks in student_records.items():
         calculated_percentage = (marks / 100) * 100
         if calculated_percentage == percentage:
             print(f"Student with {percentage}% marks found: {student}")
             return
+
     print(f"No student found with {percentage}% marks.")
+
 
 # 102. Python program to illustrate Matrix Addition using Class
 class Matrix:

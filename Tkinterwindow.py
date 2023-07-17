@@ -97,11 +97,10 @@ class Console(tk.Frame):
         module = self.modules.get(selected_module)
 
         if module is not None:
-            # Get the function object from the module using the selected function name
+        
             cmd=f"import {selected_module} as m; m.{selected_function}()"
             self.run_code(cmd)
-            with open("C_programs.txt","w") as f:
-                f.write(cmd)
+
     def module_button_clicked(self,module_name):
         self.module_var.set(module_name)
         self.display_function_names(module_name)
