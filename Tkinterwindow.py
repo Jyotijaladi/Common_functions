@@ -104,7 +104,9 @@ class Console(tk.Frame):
     def module_button_clicked(self,module_name):
         self.module_var.set(module_name)
         self.display_function_names(module_name)
-    def display_function_names(self,module_name):
+
+
+    def display_function_names(self, module_name):
         # Clear the text widget
         self.text_widget.delete("1.0", tk.END)
 
@@ -113,11 +115,13 @@ class Console(tk.Frame):
 
         if module is not None:
             # Get the function names from the module using inspect
-            function_names = [name for name, _ in inspect.getmembers(module, inspect.isfunction)]
+            function_names = [name for name, obj in inspect.getmembers(module, inspect.isfunction)
+                            if inspect.getmodule(obj) == module]
 
             # Display the function names in the ScrolledText widget
             for name in function_names:
                 self.text_widget.insert(tk.END, name + "\n")
+
     def run_code(self,code):
         self.text.insert(tk.END, code+"\n")
         self.enter(e=sys)
