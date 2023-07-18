@@ -12,7 +12,9 @@ from sklearn.cluster import KMeans, AgglomerativeClustering
 from mlxtend.frequent_patterns import apriori, association_rules
 from sklearn.linear_model import LinearRegression
 from sklearn.cluster import KMeans, AgglomerativeClustering
+import warnings
 
+warnings.filterwarnings("ignore")
 def data_exploration():
     dataset_path = input("Enter the dataset path: ")
 
@@ -336,6 +338,7 @@ def linear_regression():
         model.fit(X, y)
 
         # Perform predictions
+        print(model.coef_,model.intercept_)
         # ...
 
     except Exception as e:
