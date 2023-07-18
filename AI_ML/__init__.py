@@ -49,7 +49,7 @@ def Calculator():
     
     a=int(input("Enter the value of a:"))
     b=int(input("Enter the value of b:"))
-    res=opr[opt+1](a,b)
+    res=opr[opt-1](a,b)
     print("Answer = ",res)
 
     
