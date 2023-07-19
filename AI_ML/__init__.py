@@ -479,18 +479,26 @@ def tsp():
 
 # 20. Text-to-Speech Conversion
 
+class ContextManager():
+    def __init__(self,text):
+        self.text=text
+        self.filename="sound.mp3"
+         
+    def __enter__(self):
+        tts = gTTS(text=self.text, lang='en')
+        tts.save(self.filename)
+        return self.filename
 
+     
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        os.remove(self.filename)
+        
 def text_to_speech():
-    text=input("Enter the text to convert it to speech")
-    try:
-        tts = gTTS(text=text, lang='en')
-        filename="sound.mp3"
-        tts.save(filename)
-        playsound(filename)
-        os.remove(filename)
-    except Exception as e:
-        #print("Exception ",str(e))
-        os.remove(filename)
+    text=input("Enter the text to convert it to speech: ")
+    with ContextManager(text) as manager:
+        playsound("sound.mp3")
+
+
 
 
 
