@@ -246,4 +246,4 @@ def binary_search_array():
     target = int(input("Enter the target value: "))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
-    return binary_search(c_arr, size, target)
+    return binary_search(c_arr, 0,size, target)
