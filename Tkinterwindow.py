@@ -35,6 +35,7 @@ class Console(CSDEPT.Frame):
 
     def __init__(self, parent, _locals, exit_callback):
         super().__init__(parent)
+        parent.title("Departement of CS, Karnatak University Dharwad")
 
         self.module_var = CSDEPT.StringVar()
         self.configure(background="white")
