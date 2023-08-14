@@ -54,6 +54,8 @@ class Console(tk.Frame):
             button_row += 1
         call_button = tk.Button(self.frame_b, width=11, text="Call Function", command=self.call_selected_function)
         call_button.grid(row=3, column=2, padx=5, pady=5)
+        clear_button = tk.Button(self.frame_b, width=11, text="Clear Screen", command=self.clear_screen)
+        clear_button.grid(row=4, column=2, padx=5, pady=5)
         self.text = ConsoleText(self, wrap=tk.WORD)
         self.text.pack(fill=tk.BOTH, expand=True)
 
@@ -81,6 +83,16 @@ class Console(tk.Frame):
         # Store imported modules
         self.modules = {}
         self.thread_pool = ThreadPoolExecutor(max_workers=5)  # You can adjust the number of worker threads here
+    def clear_screen(self):
+        self.text_widget.delete(1.0, tk.END)
+        self.text.delete(1.0, tk.END)
+        self.text.update_idletasks()
+        self.text_widget.update_idletasks()  # Update the display immediately
+
+        # Clear the prompt flag to start a new prompt after clearing
+        self.enter(e=sys)
+
+        
 
     def import_module_async(self, module_name):
         if module_name not in self.modules:
