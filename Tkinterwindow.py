@@ -5,7 +5,7 @@ import hashlib
 import queue
 import sys
 import threading
-import tkinter as tk
+import tkinter as CSDEPT
 import traceback
 from tkinter.scrolledtext import ScrolledText
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -30,34 +30,34 @@ class Pipe:
         return line
 
 
-class Console(tk.Frame):
+class Console(CSDEPT.Frame):
     """A tkinter widget which behaves like an interpreter"""
 
     def __init__(self, parent, _locals, exit_callback):
         super().__init__(parent)
 
-        self.module_var = tk.StringVar()
+        self.module_var = CSDEPT.StringVar()
         self.configure(background="white")
         self.text_widget = ScrolledText(self, height=10)
         self.text_widget.pack()
         self.text_widget.configure(border=True, borderwidth=2, selectborderwidth=2)
-        self.frame_b = tk.Frame(self)
+        self.frame_b = CSDEPT.Frame(self)
         self.frame_b.pack()
         self.frame_b.configure(background="white")
         button_row = 1
         grid = {1: (1, 1), 2: (1, 2), 3: (2, 1), 4: (2, 2), 5: (3, 1)}
         self.module_buttons = {}
         for module_name in ["AI_ML", "Java_Programs", "Python_lib", "Data_Mining", "C"]:
-            button = tk.Button(self.frame_b, width=11, text=module_name, command=lambda name=module_name: self.module_button_clicked(name))
+            button = CSDEPT.Button(self.frame_b, width=11, text=module_name, command=lambda name=module_name: self.module_button_clicked(name))
             button.grid(row=grid[button_row][0], column=grid[button_row][1], padx=5, pady=5)
             self.module_buttons[module_name] = button
             button_row += 1
-        call_button = tk.Button(self.frame_b, width=11, text="Call Function", command=self.call_selected_function)
+        call_button = CSDEPT.Button(self.frame_b, width=11, text="Call Function", command=self.call_selected_function)
         call_button.grid(row=3, column=2, padx=5, pady=5)
-        clear_button = tk.Button(self.frame_b, width=11, text="Clear Screen", command=self.clear_screen)
+        clear_button = CSDEPT.Button(self.frame_b, width=11, text="Clear Screen", command=self.clear_screen)
         clear_button.grid(row=4, column=2, padx=5, pady=5)
-        self.text = ConsoleText(self, wrap=tk.WORD)
-        self.text.pack(fill=tk.BOTH, expand=True)
+        self.text = ConsoleText(self, wrap=CSDEPT.WORD)
+        self.text.pack(fill=CSDEPT.BOTH, expand=True)
 
         self.shell = code.InteractiveConsole(_locals)
 
@@ -84,8 +84,8 @@ class Console(tk.Frame):
         self.modules = {}
         self.thread_pool = ThreadPoolExecutor(max_workers=5)  # You can adjust the number of worker threads here
     def clear_screen(self):
-        self.text_widget.delete(1.0, tk.END)
-        self.text.delete(1.0, tk.END)
+        self.text_widget.delete(1.0, CSDEPT.END)
+        self.text.delete(1.0, CSDEPT.END)
         self.text.update_idletasks()
         self.text_widget.update_idletasks()  # Update the display immediately
 
@@ -106,7 +106,7 @@ class Console(tk.Frame):
             traceback.print_exc()
 
     def call_selected_function(self):
-        selected_function = self.text_widget.get(tk.SEL_FIRST, tk.SEL_LAST).strip()
+        selected_function = self.text_widget.get(CSDEPT.SEL_FIRST, CSDEPT.SEL_LAST).strip()
         selected_module = self.module_var.get()
 
         if selected_module not in self.modules:
@@ -135,7 +135,7 @@ class Console(tk.Frame):
         self.display_function_names(module_name)
 
     def display_function_names(self, module_name):
-        self.text_widget.delete("1.0", tk.END)
+        self.text_widget.delete("1.0", CSDEPT.END)
 
         if module_name not in self.modules:
             # Import the selected module in the background if it's not already imported
@@ -148,10 +148,10 @@ class Console(tk.Frame):
                               if inspect.getmodule(obj) == module]
 
             for name in function_names:
-                self.text_widget.insert(tk.END, name + "\n")
+                self.text_widget.insert(CSDEPT.END, name + "\n")
 
     def run_code(self, code):
-        self.text.insert(tk.END, code + "\n")
+        self.text.insert(CSDEPT.END, code + "\n")
         self.enter(e=sys)
 
     def prompt(self):
@@ -233,9 +233,9 @@ class ConsoleText(ScrolledText):
 
     def prompt(self):
         self.mark_set("prompt_end", 'end-1c')
-        self.mark_gravity("prompt_end", tk.LEFT)
+        self.mark_gravity("prompt_end", CSDEPT.LEFT)
         self.write(">>> ", "prompt", foreground="blue")
-        self.mark_gravity("prompt_end", tk.RIGHT)
+        self.mark_gravity("prompt_end", CSDEPT.RIGHT)
 
     def commit_all(self):
         self.commit_to('end-1c')
@@ -243,7 +243,7 @@ class ConsoleText(ScrolledText):
     def commit_to(self, pos):
         if self.index(pos) in (self.index("end-1c"), self.index("end")):
             self.mark_set("committed_text", "end-1c")
-            self.mark_gravity("committed_text", tk.LEFT)
+            self.mark_gravity("committed_text", CSDEPT.LEFT)
         else:
             for i, (tag_name, _, _) in reversed(list(enumerate(self.console_tags))):
                 if tag_name == "prompt":
@@ -263,7 +263,7 @@ class ConsoleText(ScrolledText):
     def write(self, string, tag_name, pos='end-1c', **kwargs):
         start = self.index(pos)
         self.insert(pos, string)
-        self.see(tk.END)
+        self.see(CSDEPT.END)
         self.commit_to(pos)
         self.tag_add(tag_name, start, pos)
         self.tag_config(tag_name, **kwargs)
@@ -271,9 +271,9 @@ class ConsoleText(ScrolledText):
 
     def on_text_change(self, event):
         if self.get_committed_text_hash() != self.committed_hash:
-            self.mark_gravity("committed_text", tk.RIGHT)
+            self.mark_gravity("committed_text", CSDEPT.RIGHT)
             self.replace(1.0, "committed_text", self.committed_text_backup)
-            self.mark_gravity("committed_text", tk.LEFT)
+            self.mark_gravity("committed_text", CSDEPT.LEFT)
 
             for tag_name, start, end in self.console_tags:
                 self.tag_add(tag_name, start, end)
@@ -288,8 +288,8 @@ class ConsoleText(ScrolledText):
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
+    root = CSDEPT.Tk()
     root.config(background="red")
     main_window = Console(root, locals(), root.destroy)
-    main_window.pack(fill=tk.BOTH, expand=True)
+    main_window.pack(fill=CSDEPT.BOTH, expand=True)
     root.mainloop()
