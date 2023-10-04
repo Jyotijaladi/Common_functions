@@ -1,14 +1,18 @@
 #include <stdio.h>
-#include <math.h>
+#include <stdlib.h>
 
 //#14 Function to calculate prime factors of a number
-void calculatePrimeFactors(int num) {
+int* calculatePrimeFactors(int num) {
     int i;
-    printf("Prime factors of %d are: ", num);
+    int *arr=(int*)malloc(num * sizeof(int));;
+    int index=0;
+    
     for (i = 2; i <= num; i++) {
         while (num % i == 0) {
-            printf("%d ", i);
-            num /= i;
+            arr[index++]=i;
+                        num /= i;
         }
     }
+    arr[index]=-1;
+    return arr;
 }

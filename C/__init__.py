@@ -1,5 +1,6 @@
 import ctypes
 import os
+from decimal import Decimal
 root=os.path.dirname(__file__)
 # Load the shared libraries
 fib_lib = ctypes.CDLL(os.path.join(root,'fibonacci.so'))
@@ -29,8 +30,8 @@ fibonacci.argtypes = [ctypes.c_int]
 fibonacci.restype = ctypes.c_int
 
 reverse_decimal = reverse_decimal_lib.reverseDecimal
-reverse_decimal.argtypes = [ctypes.c_int]
-reverse_decimal.restype = ctypes.c_int
+reverse_decimal.argtypes = [ctypes.c_double]
+reverse_decimal.restype = ctypes.c_float
 
 binary_to_decimal = binary_to_decimal_lib.binaryToDecimal
 binary_to_decimal.argtypes = [ctypes.c_int]
@@ -53,6 +54,7 @@ calculate_e.restype = ctypes.c_double
 
 generate_primes = generate_primes_lib.generatePrimes
 generate_primes.argtypes = [ctypes.c_int]
+generate_primes.restype=ctypes.POINTER(ctypes.c_int)
 
 square_root = square_root_lib.squareRoot
 square_root.argtypes = [ctypes.c_double]
@@ -76,6 +78,7 @@ count_duplicates.restype = ctypes.c_int
 
 prime_factors = prime_factors_lib.calculatePrimeFactors
 prime_factors.argtypes = [ctypes.c_int]
+prime_factors.restype = ctypes.POINTER(ctypes.c_int)
 
 reverse_array = reverse_array_lib.reverseArray
 reverse_array.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int]
@@ -85,7 +88,7 @@ kth_smallest.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_in
 kth_smallest.restype = ctypes.c_int
 
 merge_sort = merge_sort_lib.mergeSort
-merge_sort.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int]
+merge_sort.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int,ctypes.c_int]
 
 bubble_sort = bubble_sort_lib.bubbleSort
 bubble_sort.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int]
@@ -106,13 +109,15 @@ def get_fibonacci():
 
 # Reverse Decimal
 def get_reverse_decimal():
-    num = float(input("Enter a decimal number: "))
-    return reverse_decimal(num)
+    num = Decimal(input("Enter a decimal number: "))
+
+    number=reverse_decimal(num)
+    return float(str(num)[::-1])
 
 
 # Binary to Decimal
 def get_binary_to_decimal():
-    binary = input("Enter a binary number: ")
+    binary = int(input("Enter a binary number: "))
     return binary_to_decimal(binary)
 
 
@@ -143,9 +148,16 @@ def e_value():
 # Generate Primes
 def get_prime_numbers():
     n = int(input("Enter the value of n: "))
-    primes = (ctypes.c_int * n)()
-    generate_primes(n)
-    return primes
+    
+    arr=generate_primes(n)
+    li=[]
+    for i in arr:
+        if i == -1:
+            break
+        else:
+            li.append(i)
+    return li
+    
 
 
 # Square Root
@@ -157,7 +169,7 @@ def get_square_root():
 # Char to ASCII
 def get_ascii_code():
     char = input("Enter a character: ")
-    return char_to_ascii(char)
+    return char_to_ascii(char.encode())
 
 
 # Partition Array
@@ -190,13 +202,22 @@ def count_duplicate_values():
 # Prime Factors
 def get_prime_factors():
     num = int(input("Enter a number: "))
-    prime_factors_arr = (ctypes.c_int * num)()
-    prime_factors(num, prime_factors_arr)
-    return list(prime_factors_arr)
+    
+    arr=prime_factors(num)
+    li=[]
+    for i in arr:
+        if i == -1:
+            break
+        elif i not in li:
+            li.append(i)
+    return li
+            
+
+   
 
 
 # Reverse Array
-def reverse_array():
+def get_reverse_array():
     arr = list(map(int, input("Enter the array elements: ").split()))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
@@ -218,7 +239,7 @@ def merge_sort_array():
     arr = list(map(int, input("Enter the array elements: ").split()))
     size = len(arr)
     c_arr = (ctypes.c_int * size)(*arr)
-    merge_sort(c_arr, size)
+    merge_sort(c_arr,0, size-1)
     return list(c_arr)
 
 
