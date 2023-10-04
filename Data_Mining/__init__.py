@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
@@ -13,7 +13,11 @@ from mlxtend.frequent_patterns import apriori, association_rules
 from sklearn.linear_model import LinearRegression
 from sklearn.cluster import KMeans, AgglomerativeClustering
 import warnings
-
+import time
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.cluster import AgglomerativeClustering
 warnings.filterwarnings("ignore")
 def data_exploration():
     dataset_path = input("Enter the dataset path: ")
@@ -212,6 +216,8 @@ def binary_logistic_regression():
 
 def decision_tree_classification():
     dataset_path = input("Enter the dataset path: ")
+    print("Step 1: Loading the dataset...")
+    time.sleep(2)  # Delay for 2 seconds
 
     if not os.path.exists(dataset_path):
         print("File not found. Please provide a valid dataset path.")
@@ -222,21 +228,46 @@ def decision_tree_classification():
     try:
         # Load data
         data = pd.read_csv(dataset_path)
+        print("Step 2: Data loaded successfully.")
+        time.sleep(2)  # Delay for 2 seconds
 
         # Perform decision tree classification
         X = data.drop(target_column, axis=1)
         y = data[target_column]
-        model = DecisionTreeClassifier()
-        model.fit(X, y)
+        print("Step 3: Performing decision tree classification...")
+        time.sleep(2)  # Delay for 2 seconds
 
-        # Perform predictions
-        # ...
+        # Split data into training and testing sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        print("Step 4: Splitting data into training and testing sets...")
+        time.sleep(2)  # Delay for 2 seconds
+
+        model = DecisionTreeClassifier()
+        model.fit(X_train, y_train)
+        print("Step 5: Training the decision tree classifier...")
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Perform predictions on the test set
+        y_pred = model.predict(X_test)
+        print("Step 6: Making predictions on the test set...")
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Evaluate the model
+        accuracy = accuracy_score(y_test, y_pred)
+        report = classification_report(y_test, y_pred)
+
+        print("Step 7: Model evaluation complete.")
+        print("Model accuracy:", accuracy)
+        print("Classification report:\n", report)
+
         return model
     except Exception as e:
         print("An error occurred:", str(e))
 
 def naive_bayes_classification():
     dataset_path = input("Enter the dataset path: ")
+    print("Step 1: Loading the dataset...")
+    time.sleep(2)  # Delay for 2 seconds
 
     if not os.path.exists(dataset_path):
         print("File not found. Please provide a valid dataset path.")
@@ -247,21 +278,44 @@ def naive_bayes_classification():
     try:
         # Load data
         data = pd.read_csv(dataset_path)
+        print("Step 2: Data loaded successfully.")
+        time.sleep(2)  # Delay for 2 seconds
 
         # Perform Naive Bayes classification
         X = data.drop(target_column, axis=1)
         y = data[target_column]
+        print("Step 3: Performing Naive Bayes classification...")
+        time.sleep(2)  # Delay for 2 seconds
+
         model = GaussianNB()
         model.fit(X, y)
+        print("Step 4: Naive Bayes classification model trained.")
+        time.sleep(2)  # Delay for 2 seconds
 
-        # Perform predictions
-        # ...
+        # Split data into training and testing sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        print("Step 5: Splitting data into training and testing sets...")
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Make predictions on the test set
+        y_pred = model.predict(X_test)
+
+        # Evaluate the Naive Bayes model
+        accuracy = accuracy_score(y_test, y_pred)
+        report = classification_report(y_test, y_pred)
+
+        print("Step 6: Model evaluation complete.")
+        print("Model accuracy:", accuracy)
+        print("Classification report:\n", report)
+
         return model
     except Exception as e:
         print("An error occurred:", str(e))
 
 def knn_classification():
     dataset_path = input("Enter the dataset path: ")
+    print("Step 1: Loading the dataset...")
+    time.sleep(2)  # Delay for 2 seconds
 
     if not os.path.exists(dataset_path):
         print("File not found. Please provide a valid dataset path.")
@@ -272,15 +326,36 @@ def knn_classification():
     try:
         # Load data
         data = pd.read_csv(dataset_path)
+        print("Step 2: Data loaded successfully.")
+        time.sleep(2)  # Delay for 2 seconds
 
         # Perform KNN classification
         X = data.drop(target_column, axis=1)
         y = data[target_column]
+        print("Step 3: Performing KNN classification...")
+        time.sleep(2)  # Delay for 2 seconds
+
         model = KNeighborsClassifier()
         model.fit(X, y)
+        print("Step 4: KNN classification model trained.")
+        time.sleep(2)  # Delay for 2 seconds
 
-        # Perform predictions
-        # ...
+        # Split data into training and testing sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        print("Step 5: Splitting data into training and testing sets...")
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Make predictions on the test set
+        y_pred = model.predict(X_test)
+
+        # Evaluate the KNN model
+        accuracy = accuracy_score(y_test, y_pred)
+        report = classification_report(y_test, y_pred)
+
+        print("Step 6: Model evaluation complete.")
+        print("Model accuracy:", accuracy)
+        print("Classification report:\n", report)
+
         return model
     except Exception as e:
         print("An error occurred:", str(e))
@@ -290,6 +365,8 @@ def knn_classification():
 
 def frequent_item_set_mining():
     dataset_path = input("Enter the dataset path: ")
+    print("Step 1: Loading the dataset...")
+    time.sleep(2)  # Delay for 2 seconds
 
     if not os.path.exists(dataset_path):
         print("File not found. Please provide a valid dataset path.")
@@ -301,12 +378,21 @@ def frequent_item_set_mining():
     try:
         # Load data
         data = pd.read_csv(dataset_path)
+        print("Step 2: Data loaded successfully.")
+        time.sleep(2)  # Delay for 2 seconds
 
         # Perform frequent item set mining
+        print("Step 3: Performing frequent item set mining...")
         frequent_itemsets = apriori(data, min_support=min_support, use_colnames=True)
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Generate association rules
+        print("Step 4: Generating association rules...")
         rules = association_rules(frequent_itemsets, metric="support", min_threshold=min_threshold)
+        time.sleep(2)  # Delay for 2 seconds
 
         # Print frequent itemsets and association rules
+        print("Step 5: Printing results...")
         print("Frequent Itemsets:")
         print(frequent_itemsets)
         print("Association Rules:")
@@ -317,9 +403,10 @@ def frequent_item_set_mining():
 
 
 
-
 def linear_regression():
     dataset_path = input("Enter the dataset path: ")
+    print("Step 1: Loading the dataset...")
+    time.sleep(2)  # Delay for 2 seconds
 
     if not os.path.exists(dataset_path):
         print("File not found. Please provide a valid dataset path.")
@@ -330,16 +417,40 @@ def linear_regression():
     try:
         # Load data
         data = pd.read_csv(dataset_path)
+        print("Step 2: Data loaded successfully.")
+        time.sleep(2)  # Delay for 2 seconds
 
         # Perform linear regression
         X = data.drop(target_column, axis=1)
         y = data[target_column]
+        print("Step 3: Performing linear regression...")
+        time.sleep(2)  # Delay for 2 seconds
+
         model = LinearRegression()
         model.fit(X, y)
+        print("Step 4: Linear regression model trained.")
+        time.sleep(2)  # Delay for 2 seconds
 
         # Perform predictions
-        print(model.coef_,model.intercept_)
-        # ...
+        print("Step 5: Model Coefficients:", model.coef_)
+        print("Step 6: Model Intercept:", model.intercept_)
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Split data into training and testing sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        print("Step 7: Splitting data into training and testing sets...")
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Make predictions on the test set
+        y_pred = model.predict(X_test)
+
+        # Evaluate the model
+        mse = mean_squared_error(y_test, y_pred)
+        r2 = r2_score(y_test, y_pred)
+
+        print("Step 8: Model evaluation complete.")
+        print("Mean Squared Error (MSE):", mse)
+        print("R-squared (R2):", r2)
 
     except Exception as e:
         print("An error occurred:", str(e))
@@ -360,19 +471,30 @@ def kmeans_clustering():
     try:
         # Load data
         data = pd.read_csv(dataset_path)
+        print("Step 1: Data loaded successfully.")
+        time.sleep(2)  # Delay for 2 seconds
 
-        # Perform K-means clustering
+        # Perform PCA to automatically select relevant columns
+        pca = PCA(n_components=2)  # You can adjust the number of components as needed
+        reduced_data = pca.fit_transform(data)
+        print("Step 2: PCA performed for dimensionality reduction.")
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Perform K-means clustering on the reduced data
         kmeans = KMeans(n_clusters=num_clusters)
-        clusters = kmeans.fit_predict(data)
+        clusters = kmeans.fit_predict(reduced_data)
+        print("Step 3: K-means clustering performed.")
+        time.sleep(2)  # Delay for 2 seconds
 
         # Print cluster assignments
         print("Cluster Assignments:")
         print(clusters)
+        time.sleep(2)  # Delay for 2 seconds
 
         # Visualize clusters
-        plt.scatter(data['x'], data['y'], c=clusters)
-        plt.xlabel('x')
-        plt.ylabel('y')
+        plt.scatter(reduced_data[:, 0], reduced_data[:, 1], c=clusters)
+        plt.xlabel('Principal Component 1')
+        plt.ylabel('Principal Component 2')
         plt.title('K-means Clustering')
         plt.show()
 
@@ -380,34 +502,50 @@ def kmeans_clustering():
         print("An error occurred:", str(e))
 
 
+
+
 def hierarchical_clustering():
     dataset_path = input("Enter the dataset path: ")
+    print("Step 1: Loading the dataset...")
+    time.sleep(2)  # Delay for 2 seconds
 
     if not os.path.exists(dataset_path):
         print("File not found. Please provide a valid dataset path.")
         return
 
-    num_clusters = int(input("Enter the number of clusters: "))
-
     try:
         # Load data
         data = pd.read_csv(dataset_path)
+        print("Step 2: Data loaded successfully.")
+        time.sleep(2)  # Delay for 2 seconds
+
+        # Automatically choose two columns to plot
+        if len(data.columns) < 2:
+            print("Dataset does not have enough columns to perform clustering.")
+            return
+
+        # Select the first two numeric columns for plotting
+        columns_to_plot = data.select_dtypes(include=['number']).iloc[:, :2]
 
         # Perform hierarchical clustering
+        num_clusters = int(input("Enter the number of clusters: "))
         clustering = AgglomerativeClustering(n_clusters=num_clusters, linkage='ward')
-        clusters = clustering.fit_predict(data)
+        clusters = clustering.fit_predict(columns_to_plot)
+        print("Step 3: Hierarchical clustering performed.")
+        time.sleep(2)  # Delay for 2 seconds
 
         # Print cluster assignments
         print("Cluster Assignments:")
         print(clusters)
+        time.sleep(2)  # Delay for 2 seconds
 
         # Visualize clusters
-        plt.scatter(data['x'], data['y'], c=clusters)
-        plt.xlabel('x')
-        plt.ylabel('y')
+        plt.scatter(columns_to_plot.iloc[:, 0], columns_to_plot.iloc[:, 1], c=clusters)
+        plt.xlabel(columns_to_plot.columns[0])
+        plt.ylabel(columns_to_plot.columns[1])
         plt.title('Hierarchical Clustering')
         plt.show()
-
+        print("Step 4: Clustering visualization.")
     except Exception as e:
         print("An error occurred:", str(e))
 
