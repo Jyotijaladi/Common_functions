@@ -9,7 +9,8 @@ import tkinter as CSDEPT
 import traceback
 from tkinter.scrolledtext import ScrolledText
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
+from tkinter import *
+from tkinter.ttk import *
 class Pipe:
     """mock stdin stdout or stderr"""
 
@@ -36,6 +37,8 @@ class Console(CSDEPT.Frame):
     def __init__(self, parent, _locals, exit_callback):
         super().__init__(parent)
         parent.title("Departement of CS, Karnatak University Dharwad")
+        
+        parent.iconbitmap("1514370036Logo.ico")   
 
         self.module_var = CSDEPT.StringVar()
         self.configure(background="white")
