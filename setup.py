@@ -2,7 +2,7 @@ from setuptools import setup,find_packages
 from typing import List
 REQUIREMENT_FILE_NAME="requirements.txt"
 Project_Name="Common_functions"
-Version="0.0.5"
+Version="0.1.0"
 AUTHOR="Jyoti"
 DESCRIPTION="Mini Project on creating a library for all the program in 5 syllabus"
 
