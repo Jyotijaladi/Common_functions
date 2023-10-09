@@ -7,13 +7,71 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, ExtraTreesClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
+import matplotlib.pyplot as plt
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from gtts import gTTS
 from playsound import playsound 
-
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
 import os
+
+import warnings
+
+warnings.filterwarnings("ignore")
+
+class LocalRegression:
+    def __init__(self, X, Y):
+        self.X = X
+        self.Y = Y
+
+    def local_regression(self, x0, tau):
+        x0 = [1, x0]
+        X = [[1, i] for i in self.X]
+        X = np.asarray(X)
+        xw = (X.T) * np.exp(np.sum((X - x0) ** 2, axis=1) / (-2 * tau))
+        beta = np.linalg.pinv(xw @ X) @ xw @ self.Y @ x0
+        return beta
+
+    def draw(self, domain, taus):
+        plt.plot(self.X, self.Y, 'o', color='black')
+        for tau in taus:
+            prediction = [self.local_regression(x0, tau) for x0 in domain]
+            plt.plot(domain, prediction, label=f'tau={tau}')
+        plt.legend()
+        plt.show()
+
+def weighted():
+    X = np.linspace(-3, 3, num=1000)
+    domain = X
+    Y = np.log(np.abs(X**2 - 1) + 0.5)
+    local_reg = LocalRegression(X, Y)
+    tau_input = input("Enter tau values separated by spaces: ")
+    taus = [float(tau) for tau in tau_input.split()]
+    local_reg.draw(domain, taus)
+
+
+class KNNClassifier:
+    def __init__(self, k=1):
+        self.k = k
+        self.classifier = KNeighborsClassifier(n_neighbors=k)
+        self.iris = datasets.load_iris()
+        self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.iris.data, self.iris.target, test_size=0.1)
+
+    def train_and_predict(self):
+        self.classifier.fit(self.x_train, self.y_train)
+        y_pred = self.classifier.predict(self.x_test)
+
+        print("Results of classification using k-NN with k={}".format(self.k))
+        for r in range(len(self.x_test)):
+            print("Sample:", str(self.x_test[r]), "Actual-label:", str(self.y_test[r]), "Predicted-label:", str(y_pred[r]))
+        print("Classification Accuracy:", self.classifier.score(self.x_test, self.y_test))
+
+def K_Nearest():
+    k = int(input("Enter the value of k for K-NN: "))
+    knn_classifier = KNNClassifier(k)
+    knn_classifier.train_and_predict()
 
 def is_prime():
     number = int(input("Enter a number: "))
@@ -474,8 +532,358 @@ def tsp():
     total_distance += graph[path[-2]][path[-1]]
 
     return path, total_distance
+class AStarSearch:
+    def __init__(self):
+        self.graph = {}
+        self.heuristic_values = {}
+
+    def aStarAlgo(self, start_node, stop_node):
+        open_set = set([start_node])
+        closed_set = set()
+        g = {start_node: 0}
+        parents = {start_node: start_node}
+
+        while len(open_set) > 0:
+            n = None
+            for v in open_set:
+                if n is None or g[v] + self.heuristic_values[v] < g[n] + self.heuristic_values[n]:
+                    n = v
+
+            if n == stop_node or n not in self.graph:
+                pass
+            else:
+                for (m, weight) in self.get_neighbors(n):
+                    if m not in open_set and m not in closed_set:
+                        open_set.add(m)
+                        parents[m] = n
+                        g[m] = g[n] + weight
+                    else:
+                        if g[m] > g[n] + weight:
+                            g[m] = g[n] + weight
+                            parents[m] = n
+                            if m in closed_set:
+                                closed_set.remove(m)
+                                open_set.add(m)
+
+            if n is None:
+                print('Path does not exist!')
+                return None
+
+            if n == stop_node:
+                path = []
+                while parents[n] != n:
+                    path.append(n)
+                    n = parents[n]
+                path.append(start_node)
+                path.reverse()
+                print('Path found:', path)
+                return path
+
+            open_set.remove(n)
+            closed_set.add(n)
+
+        print('Path does not exist!')
+        return None
+
+    def get_neighbors(self, node):
+        if node in self.graph:
+            return self.graph[node]
+        else:
+            return []
+
+def astar():
+    astar_solver = AStarSearch()
+
+    num_nodes = int(input("Enter the number of nodes in the graph: "))
+    for i in range(num_nodes):
+        node_name = input(f"Enter the name of node {i+1}: ")
+        heuristic_value = int(input(f"Enter the heuristic value for node {node_name}: "))
+        astar_solver.heuristic_values[node_name] = heuristic_value
+        num_neighbors = int(input(f"Enter the number of neighbors for node {node_name}: "))
+        neighbors = []
+        for j in range(num_neighbors):
+            neighbor_name, weight = input(f"Enter the name of neighbor {j+1} and its weight: ").split()
+            weight = int(weight)
+            neighbors.append((neighbor_name, weight))
+        astar_solver.graph[node_name] = neighbors
+
+    start_node = input("Enter the start node: ")
+    goal_node = input("Enter the goal node: ")
+    astar_solver.aStarAlgo(start_node, goal_node)
+
+class MinimaxSolver:
+    def __init__(self):
+        self.values = []
+        self.MAX = float('inf')
+        self.MIN = float('-inf')
+
+    def get_values(self):
+        num_values = int(input("Enter the number of nodes:  "))
+        for i in range(num_values):
+            value = int(input(f"Enter value for node  {i + 1}: "))
+            self.values.append(value)
+
+    def minimax(self, depth, nodeIndex, maximizingPlayer, alpha, beta):
+        if depth == 3:
+            return self.values[nodeIndex]
+        if maximizingPlayer:
+            best = self.MIN
+            for i in range(0, 2):
+                val = self.minimax(depth + 1, nodeIndex * 2 + i, False, alpha, beta)
+                best = max(best, val)
+                alpha = max(alpha, best)
+                if beta <= alpha:
+                    break
+            return best
+        else:
+            best = self.MAX
+            for i in range(0, 2):
+                val = self.minimax(depth + 1, nodeIndex * 2 + i, True, alpha, beta)
+                best = min(best, val)
+                beta = min(beta, best)
+                if beta <= alpha:
+                    break
+            return best
+
+    def solve(self):
+        alpha = self.MIN
+        beta = self.MAX
+        return self.minimax(0, 0, True, alpha, beta)
+
+def Alphabeta():
+    solver = MinimaxSolver()
+    solver.get_values()
+    print("The optimal value is:", solver.solve())
 
 
+
+class AOStarSearch:
+    def __init__(self):
+        self.H_dist = {
+            'A': -1,
+            'B': 4,
+            'C': 2,
+            'D': 3,
+            'E': 6,
+            'F': 8,
+            'G': 2,
+            'H': 0,
+            'I': 0,
+            'J': 0
+        }
+
+        self.allNodes = {
+            'A': {'AND': [('C', 'D')], 'OR': ['B']},
+            'B': {'OR': ['E', 'F']},
+            'C': {'OR': ['G'], 'AND': [('H', 'I')]},
+            'D': {'OR': ['J']}
+        }
+
+        self.optimal_child_group = {}
+
+
+    def recAOStar(self, n):
+        and_nodes = []
+        or_nodes = []
+        if n in self.allNodes:
+            if 'AND' in self.allNodes[n]:
+                and_nodes = self.allNodes[n]['AND']
+            if 'OR' in self.allNodes[n]:
+                or_nodes = self.allNodes[n]['OR']
+        if len(and_nodes) == 0 and len(or_nodes) == 0:
+            return
+        solvable = False
+        marked = {}
+        while not solvable:
+            if len(marked) == len(and_nodes) + len(or_nodes):
+                min_cost_least, min_cost_group_least = self.least_cost_group(and_nodes, or_nodes, marked)
+                solvable = True
+                self.change_heuristic(n, min_cost_least)
+                self.optimal_child_group[n] = min_cost_group_least
+                continue
+            min_cost, min_cost_group = self.least_cost_group(and_nodes, or_nodes, marked)
+            is_expanded = False
+            if len(min_cost_group) > 1:
+                if min_cost_group[0] in self.allNodes:
+                    is_expanded = True
+                    self.recAOStar(min_cost_group[0])
+                if min_cost_group[1] in self.allNodes:
+                    is_expanded = True
+                    self.recAOStar(min_cost_group[1])
+            else:
+                if min_cost_group in self.allNodes:
+                    is_expanded = True
+                    self.recAOStar(min_cost_group)
+            if is_expanded:
+                min_cost_verify, min_cost_group_verify = self.least_cost_group(and_nodes, or_nodes, marked)
+                if min_cost_group == min_cost_group_verify:
+                    solvable = True
+                    self.change_heuristic(n, min_cost_verify)
+                    self.optimal_child_group[n] = min_cost_group
+            else:
+                solvable = True
+                self.change_heuristic(n, min_cost)
+                self.optimal_child_group[n] = min_cost_group
+            marked[min_cost_group] = 1
+        return self.heuristic(n)
+
+    def least_cost_group(self, and_nodes, or_nodes, marked):
+        node_wise_cost = {}
+        for node_pair in and_nodes:
+            if not node_pair[0] + node_pair[1] in marked:
+                cost = 0
+                cost = cost + self.heuristic(node_pair[0]) + self.heuristic(node_pair[1]) + 2
+                node_wise_cost[node_pair[0] + node_pair[1]] = cost
+        for node in or_nodes:
+            if not node in marked:
+                cost = 0
+                cost = cost + self.heuristic(node) + 1
+                node_wise_cost[node] = cost
+        min_cost = 999999
+        min_cost_group = None
+        for costKey in node_wise_cost:
+            if node_wise_cost[costKey] < min_cost:
+                min_cost = node_wise_cost[costKey]
+                min_cost_group = costKey
+        return [min_cost, min_cost_group]
+
+    def heuristic(self, n):
+        return self.H_dist[n]
+
+    def change_heuristic(self, n, cost):
+        self.H_dist[n] = cost
+
+    def print_path(self, node):
+        print(self.optimal_child_group[node], end="")
+        node = self.optimal_child_group[node]
+        if len(node) > 1:
+            if node[0] in self.optimal_child_group:
+                print("->", end="")
+                self.print_path(node[0])
+            if node[1] in self.optimal_child_group:
+                print("->", end="")
+                self.print_path(node[1])
+        else:
+            if node in self.optimal_child_group:
+                print("->", end="")
+                self.print_path(node)
+
+def AOstarseachfun():
+    astar = AOStarSearch()
+    print("Dist variable : ",astar.H_dist)
+    print("All Nodes : ",astar.allNodes)
+    optimal_cost = astar.recAOStar('A')
+    print('Nodes which give optimal cost are:')
+    astar.print_path('A')
+    print('\nOptimal Cost is:', optimal_cost)
+
+
+
+
+
+class NeuralNetwork:
+    def __init__(self, input_neurons, hidden_neurons, output_neurons):
+        self.input_neurons = input_neurons
+        self.hidden_neurons = hidden_neurons
+        self.output_neurons = output_neurons
+        self.wh = np.random.uniform(size=(input_neurons, hidden_neurons))
+        self.bh = np.random.uniform(size=(1, hidden_neurons))
+        self.wout = np.random.uniform(size=(hidden_neurons, output_neurons))
+        self.bout = np.random.uniform(size=(1, output_neurons))
+
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+
+    def derivatives_sigmoid(self, x):
+        return x * (1 - x)
+
+    def train(self, X, y, learning_rate, epochs):
+        for _ in range(epochs):
+            hinp1 = np.dot(X, self.wh)
+            hinp = hinp1 + self.bh
+            hlayer_act = self.sigmoid(hinp)
+            outinp1 = np.dot(hlayer_act, self.wout)
+            outinp = outinp1 + self.bout
+            output = self.sigmoid(outinp)
+
+            EO = y - output
+            outgrad = self.derivatives_sigmoid(output)
+            d_output = EO * outgrad
+            EH = d_output.dot(self.wout.T)
+            hiddengrad = self.derivatives_sigmoid(hlayer_act)
+            d_hiddenlayer = EH * hiddengrad
+
+            self.wout += hlayer_act.T.dot(d_output) * learning_rate
+            self.wh += X.T.dot(d_hiddenlayer) * learning_rate
+
+    def predict(self, X):
+        hinp1 = np.dot(X, self.wh)
+        hinp = hinp1 + self.bh
+        hlayer_act = self.sigmoid(hinp)
+        outinp1 = np.dot(hlayer_act, self.wout)
+        outinp = outinp1 + self.bout
+        return self.sigmoid(outinp)
+
+def BackPro():
+    X = np.array(([2, 9], [1, 5], [3, 6]), dtype=float)
+    y = np.array(([92], [86], [89]), dtype=float)
+
+    X = X / np.amax(X, axis=0)
+    y = y / 100
+
+    input_neurons = 2
+    hidden_neurons = 3
+    output_neurons = 1
+    
+
+    neural_net = NeuralNetwork(input_neurons, hidden_neurons, output_neurons)
+
+    learning_rate = 0.1
+    epochs = 7000
+    print("Learning Rate : ",learning_rate)
+    print("epochs : ",epochs)
+    neural_net.train(X, y, learning_rate, epochs)
+
+    predicted_output = neural_net.predict(X)
+
+    print("Input: \n" + str(X))
+    print("Actual Output: \n" + str(y))
+    print("Predicted Output: \n", predicted_output)
+
+
+
+class HeartDiseaseDiagnosis:
+    def __init__(self, data_file='heart_disease_data.csv'):
+        self.data = pd.read_csv(data_file)
+        self.total_patients = len(self.data)
+        self.total_heart_disease = sum(self.data['HeartDisease'])
+        self.p_heart_disease = self.total_heart_disease / self.total_patients
+        self.p_age_given_heart_disease = self.data.groupby('HeartDisease')['Age'].value_counts(normalize=True).unstack()
+        self.p_gender_given_heart_disease = self.data.groupby('HeartDisease')['Gender'].value_counts(normalize=True).unstack()
+        self.p_chest_pain_given_heart_disease = self.data.groupby('HeartDisease')['ChestPain'].value_counts(normalize=True).unstack()
+
+    def calculate_probability(self, age, gender, chest_pain):
+        p_diagnose_heart_disease = (
+            self.p_age_given_heart_disease[age][1] *
+            self.p_gender_given_heart_disease[gender][1] *
+            self.p_chest_pain_given_heart_disease[chest_pain][1] *
+            self.p_heart_disease
+        )
+        p_no_heart_disease = 1 - p_diagnose_heart_disease
+        p_diagnose_heart_disease /= (p_diagnose_heart_disease + p_no_heart_disease)
+        return p_diagnose_heart_disease, p_no_heart_disease
+
+def Bayesian():
+    heart_disease_diagnosis = HeartDiseaseDiagnosis()
+    age = int(input("Enter age: "))
+    gender = int(input("Enter gender (0 for female, 1 for male): "))
+    chest_pain = int(input("Enter chest pain (0 for no, 1 for yes): "))
+
+    p_diagnose_heart_disease, p_no_heart_disease = heart_disease_diagnosis.calculate_probability(age, gender, chest_pain)
+
+    print("Bayesian network considering medical data")
+    print("Probability of heart disease:", p_diagnose_heart_disease)
+    print("Probability of no heart disease:", p_no_heart_disease)
 
 # 20. Text-to-Speech Conversion
 
